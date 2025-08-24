@@ -1,0 +1,71 @@
+/*
+ * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
+ * or more contributor license agreements. Licensed under the Elastic License
+ * 2.0; you may not use this file except in compliance with the Elastic License
+ * 2.0.
+ */
+
+import React, { createContext, ReactChild } from 'react';
+import {
+  AnomalyDetectionSetupState,
+  getAnomalyDetectionSetupState,
+} from '../../../common/anomaly_detection/get_anomaly_detection_setup_state';
+import { ENVIRONMENT_ALL } from '../../../common/environment_filter_values';
+import { useBSDParams } from '../../hooks/use_bsd_params';
+import { FETCH_STATUS, useFetcher } from '../../hooks/use_fetcher';
+import { APIReturnType } from '../../services/rest/create_call_bsd_api';
+import { useBSDPluginContext } from '../bsd_plugin/use_bsd_plugin_context';
+import { useLicenseContext } from '../license/use_license_context';
+
+export interface AnomalyDetectionJobsContextValue {
+  anomalyDetectionJobsData?: APIReturnType<'GET /internal/apm/settings/anomaly-detection/jobs'>;
+  anomalyDetectionJobsStatus: FETCH_STATUS;
+  anomalyDetectionJobsRefetch: () => void;
+  anomalyDetectionSetupState: AnomalyDetectionSetupState;
+}
+
+export const AnomalyDetectionJobsContext = createContext({} as AnomalyDetectionJobsContextValue);
+
+export function AnomalyDetectionJobsContextProvider({ children }: { children: ReactChild }) {
+  const { core } = useBSDPluginContext();
+  const canGetJobs = !!core.application.capabilities.ml?.canGetJobs;
+  const license = useLicenseContext();
+  const hasValidLicense = license?.isActive && license?.hasAtLeast('platinum');
+
+  const isAuthorized = !!(canGetJobs && hasValidLicense);
+
+  const { data, status, refetch } = useFetcher(
+    (callBSDApi) => {
+      if (!isAuthorized) {
+        return;
+      }
+      return callBSDApi(`GET /internal/apm/settings/anomaly-detection/jobs`);
+    },
+    [isAuthorized],
+    { showToastOnError: false }
+  );
+
+  const { query } = useBSDParams('/*');
+
+  const environment = ('environment' in query && query.environment) || ENVIRONMENT_ALL.value;
+
+  const anomalyDetectionSetupState = getAnomalyDetectionSetupState({
+    environment,
+    fetchStatus: status,
+    jobs: data?.jobs ?? [],
+    isAuthorized,
+  });
+
+  return (
+    <AnomalyDetectionJobsContext.Provider
+      value={{
+        anomalyDetectionJobsData: data,
+        anomalyDetectionJobsStatus: status,
+        anomalyDetectionJobsRefetch: refetch,
+        anomalyDetectionSetupState,
+      }}
+    >
+      {children}
+    </AnomalyDetectionJobsContext.Provider>
+  );
+}
