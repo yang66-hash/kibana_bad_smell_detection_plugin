@@ -24,7 +24,7 @@ import {
 
 import { i18n } from '@kbn/i18n';
 import { DescriptionPopover } from './description_popover';
-import { DYNAMIC_LABEL, STATIC_LABEL, DETECTION_BETA_LABEL, DETECTION_SUPPORT_LABEL, DETECTION_INTRO_LABEL } from '../../../../common/constants';
+import { DETECTION_BETA_LABEL, DETECTION_SUPPORT_LABEL, DETECTION_INTRO_LABEL } from '../../../../common/constants';
 import { IBadSmell } from '../../../../common/interfaces/interfaces';
 
 
@@ -32,7 +32,8 @@ export interface BadSmellProps {
   badSmell:IBadSmell,
   iconType: string;
   badSmellStatus: string;
-  detectStatus: string;
+  detectStatus: boolean;
+  detectMethod: string;
   name: string;
   description:string;
   onBadSmellSelect: (badSmell: IBadSmell) => void;
@@ -53,6 +54,7 @@ export const BadSmellCheckable: React.FC<BadSmellProps> = ({
   iconType,
   badSmellStatus,
   detectStatus,
+  detectMethod,
   name,
   description,
   onBadSmellSelect
@@ -127,24 +129,27 @@ export const BadSmellCheckable: React.FC<BadSmellProps> = ({
                     justifyContent="flexStart"
                     responsive={false}
                   >
-                    <EuiFlexItem grow={false}>
-                      <EuiBadge>
-                        <EuiText size="xs">
-                          {badSmellStatus === "dynamic"  ? DYNAMIC_LABEL : STATIC_LABEL}
-                        </EuiText>
-                      </EuiBadge>
-                    </EuiFlexItem>
                       <EuiFlexItem grow={false}>
-                        <EuiBadge color="hollow">
-                          <EuiText size="xs">
+                        <EuiBadge color={badSmellStatus === "Undetectable" ?  'default' :
+                              detectStatus  ? 'success' : 'warning'}>
+                          <EuiText size="xs" >
                             {
-                              detectStatus === "beta"     ? DETECTION_BETA_LABEL :
-                              detectStatus === "support"  ? DETECTION_SUPPORT_LABEL :
-                                                            DETECTION_INTRO_LABEL
+                              badSmellStatus === "Undetectable" ?  DETECTION_INTRO_LABEL :
+                              detectStatus  ? DETECTION_SUPPORT_LABEL :
+                                                            DETECTION_BETA_LABEL
                             }
                           </EuiText>
                         </EuiBadge>
                     </EuiFlexItem>
+                    {detectMethod && (
+                      <EuiFlexItem grow={false}>
+                        <EuiBadge color="hollow">
+                          <EuiText size="xs">
+                            {detectMethod}
+                          </EuiText>
+                        </EuiBadge>
+                      </EuiFlexItem>
+                    )}
                   </EuiFlexGroup>
                 </EuiFlexItem>
               </EuiFlexGroup>

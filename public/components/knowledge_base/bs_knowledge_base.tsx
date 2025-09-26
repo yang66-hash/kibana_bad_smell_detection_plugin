@@ -66,8 +66,9 @@ export function KnowledgeBase(){
             <BadSmellCheckable
               badSmell={bs}
               iconType={'logoSecurity'}
-              badSmellStatus={'dynamic'}
-              detectStatus={'support'}
+              badSmellStatus={bs.detectable?'Detectable':'Undetectable'}
+              detectStatus={bs.realized}
+              detectMethod = {bs.detectMethod}
               name={bs.name}
               description={bs.description} 
               onBadSmellSelect={() => handleBadSmellSelect(bs)}

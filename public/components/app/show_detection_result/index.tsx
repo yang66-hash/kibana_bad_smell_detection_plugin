@@ -97,6 +97,7 @@ export function ShowDetectionResultView(){
         });
         console.log("start",startTime);
         console.log("start",endTime);
+        console.log("response",response.items);
         setTotalNum(response.total);
         setRenderedItems(response.items);
         setLoading(FETCH_STATUS.SUCCESS);

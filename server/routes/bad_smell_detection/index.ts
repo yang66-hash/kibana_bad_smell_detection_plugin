@@ -22,7 +22,7 @@ export function defineBadSmellDetectionRoutes(router: IRouter) {
             timestamp: {
                 gte: start,
                 lte: end,
-                format: 'strict_date_optional_time'
+                format: 'strict_date_time'
             }
           }:{};
           console.log("rangeQuery",rangeQuery);
@@ -128,7 +128,7 @@ export function defineBadSmellDetectionRoutes(router: IRouter) {
           timestamp: {
               gte: start,
               lte: end,
-              format: 'strict_date_optional_time'
+              format: 'strict_date_time'
           }
         }:{};
         

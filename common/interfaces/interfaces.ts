@@ -21,6 +21,9 @@ export interface IBadSmell{
     typeName:string;
     typeIndex:string;
     evidence:string;
+    detectMethod:string;
+    detectable:boolean;
+    realized:boolean;
 }
 
 //use to parse source of bad smells

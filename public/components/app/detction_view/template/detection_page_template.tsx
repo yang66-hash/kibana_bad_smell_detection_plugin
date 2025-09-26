@@ -113,7 +113,7 @@ export function DetectionPageTemplate({
         secondaryCategory: item.typeName,
         detectable: item.detectable,
         detectMethod: item.detectMethod,
-        activeStatus: item.detectable,
+        activeStatus: item.realized,
       }));
       setRenderedBSItems(convertedItems);
       setLoading(FETCH_STATUS.SUCCESS);

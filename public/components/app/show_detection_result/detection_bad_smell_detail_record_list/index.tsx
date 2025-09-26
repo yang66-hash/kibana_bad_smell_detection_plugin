@@ -27,8 +27,7 @@ import { useBSDRouter } from '../../../../hooks/use_bsd_router';
 import { DetectionResListItem } from '../../../../../common/interfaces/interfaces';
 import { UpdatedAtField } from '../../service_detection/service_list_detection_results/updated_at_field';
 import { FormattedRelative } from '@kbn/i18n-react';
-import { useHistory } from 'react-router-dom';
-import { DetailIntroFlayout } from '../detail_intro_flayout';
+
 
 export function getDetectionDetailRecordsColumns({
   setFlyoutVisible,
@@ -87,9 +86,18 @@ const columns: Array<ITableColumn<DetectionResListItem>> = [
               name: 'Detect Time',
               width: '25%',
               sortable: true,
-              render: (_, {timestamp}) => (
-                <UpdatedAtField dateTime={timestamp} DateFormatterComp={(props) => <FormattedRelative {...props} />} />
-              ),
+              render: (_, {timestamp}) => {
+                // 将UTC时间转换为上海时间（UTC+8）
+                const utcDate = new Date(timestamp);
+                const utcTimestamp = utcDate.getTime();
+                const shanghaiTimestamp = new Date(utcTimestamp + (8 * 60 * 60 * 1000)); // 加上8小时
+                return (
+                    <UpdatedAtField 
+                      dateTime={shanghaiTimestamp.toISOString()}
+                      DateFormatterComp={(props) => <FormattedRelative value={props.value} />}
+                    />
+                );
+              },
             },
             {
               field: BadSmellDetectionDetailRecordFieldName.Actions,
@@ -97,25 +105,17 @@ const columns: Array<ITableColumn<DetectionResListItem>> = [
               sortable: true,
               width: '9%',
               render: (_, item) => {
-                const {status} = item;
                 return (
-                  !status ? (
-                    <EuiToolTip position='top' content="Health Record without details.">
-                      <EuiButtonIcon 
-                      iconType="search"
-                      aria-label="search detail" 
-                      />
-                    </EuiToolTip>
-                      
-                  ) : (
+                  <EuiToolTip position='top' content="For details.">
                     <EuiButtonIcon
-                     iconType="search"
-                      aria-label="search detail"
-                      onClick={()=>{
-                        setFlyoutVisible(true);
-                        setcurHitItem(item);
-                      }}/>
-                  ))
+                  iconType="search"
+                   aria-label="search detail"
+                   onClick={()=>{
+                     setFlyoutVisible(true);
+                     setcurHitItem(item);
+                   }}/>
+                  </EuiToolTip> 
+                )
                 }
             }
 

@@ -83,15 +83,30 @@ export function getDetectionResColumns({
         name: 'InvolvedBSCategory',
         sortable: true,
         render: (_, item) => {
-          const {involvedBSPriType} = item
-            return (
-                <div>
-                    {involvedBSPriType.sort().map((index) =>{ 
-                       (console.log("GO for Details: " + index));
-                      return (
-                      <EuiToolTip position="top" content="Go for details.">
-                        <BSCateIcon 
+          const {involvedBSPriType} = item;
+          return (
+            <div style={{ 
+              display: 'flex', 
+              flexWrap: 'wrap', 
+              gap: '8px',
+              alignItems: 'center'
+            }}>
+              {involvedBSPriType.sort().map((index) => {
+                return (
+                  <div key={index} style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    padding: '4px',
+                    borderRadius: '4px',
+                    backgroundColor: '#F5F7FA',
+                    marginRight: '4px'
+                  }}>
+                    <EuiToolTip position="top" content="Go for details">
+                      <BSCateIcon 
                         badSmellCate={index}
+                        style={{ 
+                          cursor: 'pointer'
+                        }}
                         onClick={(event: React.MouseEvent<SVGSVGElement>) => {
                           event.preventDefault();
                           event.stopPropagation();
@@ -100,12 +115,12 @@ export function getDetectionResColumns({
                           redirectToDetailRecords(index);
                         }}
                       />
-                      </EuiToolTip>);
-                      
-                      })
-                    }
-                </div>
+                    </EuiToolTip>
+                  </div>
                 );
+              })}
+            </div>
+          );
         },
       },
       {

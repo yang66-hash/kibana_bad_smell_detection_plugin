@@ -94,7 +94,7 @@ export function DynamicPageView() {
         secondaryCategory: item.typeName,
         detectable: item.detectable,
         detectMethod: item.detectMethod,
-        activeStatus: item.detectable,
+        activeStatus: item.realized,
       }));
       setRenderedBSItems(convertedItems);
       setBadSmellNumMax(convertedItems.length);

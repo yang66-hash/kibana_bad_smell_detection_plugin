@@ -30,7 +30,7 @@ const badSmellCategoryPanels = [
   {
     description: i18n.translate(
       'plugins.badSmellDetection.badSmellCategoryBadge.detectionLabel',
-      { defaultMessage: 'You can detect these bad smells in your microservice sysyems using this Plugin' }
+      { defaultMessage: 'You can detect these bad smells in your microservice systems using this Plugin' }
     ),
     icons: [<EuiIcon type="securitySignalDetected" />, <EuiIcon type="logoElastic" />],
     id: 'detect-part',

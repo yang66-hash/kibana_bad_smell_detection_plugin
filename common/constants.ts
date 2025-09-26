@@ -102,13 +102,6 @@ export const READ_ONLY_MODE_HEADER = 'x-ent-search-read-only-mode';
 
 
 // use in bad smell knowledge base
-export const DYNAMIC_LABEL = i18n.translate('plugis.badSmellDetection.dynamicLabel', {
-  defaultMessage: 'Dynamic',
-});
-
-export const STATIC_LABEL = i18n.translate('plugis.badSmellDetection.staticLabel', {
-  defaultMessage: 'Static',
-});
 
 export const DETECTION_SUPPORT_LABEL = i18n.translate('plugis.badSmellDetection.supportLabel', {
   defaultMessage: 'Support',

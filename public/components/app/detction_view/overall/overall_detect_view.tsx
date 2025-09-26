@@ -107,7 +107,7 @@ export function OverallDetectView() {
         secondaryCategory: item.typeName,
         detectable: item.detectable,
         detectMethod: item.detectMethod,
-        activeStatus: item.detectable,
+        activeStatus: item.realized,
       }));
       console.log("detectable bad smell", convertedItems);
       setRenderedBSItems(convertedItems);
