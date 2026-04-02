@@ -377,51 +377,7 @@ export function ServiceList({
 
   return (
     <EuiFlexGroup gutterSize="xs" direction="column" responsive={false}>
-      <EuiFlexItem>
-        <TryItButton
-          isFeatureEnabled={isTableSearchBarEnabled}
-          linkLabel={
-            isTableSearchBarEnabled
-              ? i18n.translate('xpack.apm.serviceList.disableFastFilter', {
-                  defaultMessage: 'Disable fast filter',
-                })
-              : i18n.translate('xpack.apm.serviceList.enableFastFilter', {
-                  defaultMessage: 'Enable fast filter',
-                })
-          }
-          onClick={onChangeTableSearchBarVisibility}
-          isLoading={isSavingSetting}
-          popoverContent={
-            <EuiFlexGroup direction="column" gutterSize="s">
-              <EuiFlexItem grow={false}>
-                {i18n.translate('xpack.apm.serviceList.turnOffFastFilter', {
-                  defaultMessage:
-                    'Fast filtering allows you to instantly search for your services using free text.',
-                })}
-              </EuiFlexItem>
-              {isTableSearchBarEnabled && (
-                <EuiFlexItem grow={false}>
-                  <EuiLink
-                    data-test-subj="apmServiceListGiveFeedbackLink"
-                    href={getSurveyFeedbackURL({
-                      formUrl: 'https://ela.st/service-inventory-fast-filter-feedback',
-                      kibanaVersion,
-                      isCloudEnv,
-                      isServerlessEnv,
-                    })}
-                    target="_blank"
-                  >
-                    {i18n.translate('xpack.apm.serviceList.giveFeedbackFlexItemLabel', {
-                      defaultMessage: 'Give feedback',
-                    })}
-                  </EuiLink>
-                </EuiFlexItem>
-              )}
-            </EuiFlexGroup>
-          }
-        />
-        <EuiSpacer size="s" />
-      </EuiFlexItem>
+      
       <EuiFlexItem>
         <EuiFlexGroup alignItems="center" gutterSize="xs" justifyContent="flexEnd">
           {fallbackToTransactions && (

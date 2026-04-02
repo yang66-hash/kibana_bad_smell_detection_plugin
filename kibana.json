@@ -60,8 +60,6 @@
     "requiredBundles": [
       "kibanaReact",
       "kibanaUtils",
-      "ml",
-      "observability",
-      "maps"
+      "observability"
     ]
 }

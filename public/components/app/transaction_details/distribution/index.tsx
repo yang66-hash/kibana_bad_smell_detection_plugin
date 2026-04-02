@@ -19,12 +19,13 @@ import { WaterfallWithSummary } from '../waterfall_with_summary';
 import { useBSDServiceContext } from '../../../../context/bsd_service/use_bsd_service_context';
 import { useAnyOfBSDParams } from '../../../../hooks/use_bsd_params';
 import { useTimeRange } from '../../../../hooks/use_time_range';
-import { DurationDistributionChartWithScrubber } from '../../../shared/charts/duration_distribution_chart_with_scrubber';
 import { ResettingHeightRetainer } from '../../../shared/height_retainer/resetting_height_container';
 import { fromQuery, push, toQuery } from '../../../shared/links/url_helpers';
 import { TransactionTab } from '../waterfall_with_summary/transaction_tabs';
 import { useTransactionDistributionChartData } from './use_transaction_distribution_chart_data';
 import { TraceSamplesFetchResult } from '../../../../hooks/use_transaction_trace_samples_fetcher';
+import { useRequestChainFetcher } from '../../../../hooks/use_request_chain_fetcher';
+import { RequestChainGraph } from '../request_chain_graph';
 
 interface TransactionDistributionProps {
   onChartSelection: (event: XYBrushEvent) => void;
@@ -45,8 +46,7 @@ export function TransactionDistribution({
   const {
     query: { rangeFrom, rangeTo, showCriticalPath, environment },
   } = useAnyOfBSDParams(
-    '/services/{serviceName}/transactions/view',
-    '/mobile-services/{serviceName}/transactions/view'
+    '/services/{serviceName}/transactions/view'
   );
 
   const { start, end } = useTimeRange({ rangeFrom, rangeTo });
@@ -62,11 +62,14 @@ export function TransactionDistribution({
 
   const { serviceName } = useBSDServiceContext();
 
-  const markerCurrentEvent =
-    waterfallFetchResult.waterfall.entryWaterfallTransaction?.doc.transaction.duration.us;
+  // 获取请求链路数据
+  const { requestChainData, status: requestChainStatus, error: requestChainError } = useRequestChainFetcher(traceId);
+  
+  // 打印请求链路数据用于调试
+  console.log("Request Chain Data:", requestChainData);
+  console.log("Request Chain Status:", requestChainStatus);
+  console.log("Request Chain Error:", requestChainError);
 
-  const { chartData, hasData, percentileThresholdValue, status, totalDocCount } =
-    useTransactionDistributionChartData();
 
   const onShowCriticalPathChange = useCallback(
     (nextShowCriticalPath: boolean) => {
@@ -95,20 +98,15 @@ export function TransactionDistribution({
   return (
     <ResettingHeightRetainer reset={!traceId}>
       <div data-test-subj="apmTransactionDistributionTabContent">
-        <DurationDistributionChartWithScrubber
-          onChartSelection={onChartSelection}
-          onClearSelection={onClearSelection}
-          selection={selection}
-          status={status}
-          markerCurrentEvent={markerCurrentEvent}
-          chartData={chartData}
-          totalDocCount={totalDocCount}
-          hasData={hasData}
-          percentileThresholdValue={percentileThresholdValue}
-          eventType={ProcessorEvent.transaction}
+        
+        {/* 请求链路图 */}
+        <RequestChainGraph 
+          requestChainData={requestChainData} 
+          status={requestChainStatus} 
         />
 
-        <EuiSpacer size="s" />
+        <EuiSpacer size="m" />
+        
         <WaterfallWithSummary
           environment={environment}
           onSampleClick={(sample) => {

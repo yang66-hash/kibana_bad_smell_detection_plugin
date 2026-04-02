@@ -35,11 +35,11 @@ export function ServerlessFunctions() {
   const { serviceName } = useBSDServiceContext();
 
   const { data = { serverlessFunctionsOverview: [] }, status } = useFetcher(
-    (callApmApi) => {
+    (callBSDApi) => {
       if (!start || !end) {
         return undefined;
       }
-      return callApmApi(
+      return callBSDApi(
         'GET /internal/apm/services/{serviceName}/metrics/serverless/functions_overview',
         {
           params: {

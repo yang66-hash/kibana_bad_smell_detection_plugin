@@ -37,7 +37,7 @@ export const traceSamplesTab = {
   dataTestSubj: 'apmTraceSamplesTabButton',
   key: 'traceSamples',
   label: i18n.translate('xpack.apm.transactionDetails.tabs.traceSamplesLabel', {
-    defaultMessage: 'Trace samples',
+    defaultMessage: 'Trace Show',
   }),
   component: TraceSamplesTab,
 };

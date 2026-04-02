@@ -1,22 +1,14 @@
-/*
- * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
- * or more contributor license agreements. Licensed under the Elastic License
- * 2.0; you may not use this file except in compliance with the Elastic License
- * 2.0.
- */
 
 import { EuiPanel, EuiTitle, EuiIconTip, EuiFlexItem, EuiFlexGroup } from '@elastic/eui';
 import { i18n } from '@kbn/i18n';
 import React, { useEffect } from 'react';
 import { usePreviousPeriodLabel } from '../../../hooks/use_previous_period_text';
 import { isTimeComparison } from '../../shared/time_comparison/get_comparison_options';
-import { AnomalyDetectorType } from '../../../../common/anomaly_detection/bsd_ml_detectors';
 import { asExactTransactionRate } from '../../../../common/utils/formatters';
 import { useBSDServiceContext } from '../../../context/bsd_service/use_bsd_service_context';
 import { useEnvironmentsContext } from '../../../context/environments_context/use_environments_context';
 import { useAnyOfBSDParams } from '../../../hooks/use_bsd_params';
 import { FETCH_STATUS, useFetcher } from '../../../hooks/use_fetcher';
-import { usePreferredServiceAnomalyTimeseries } from '../../../hooks/use_preferred_service_anomaly_timeseries';
 import { useTimeRange } from '../../../hooks/use_time_range';
 import { TimeseriesChartWithContext } from '../../shared/charts/timeseries_chart_with_context';
 import { getComparisonChartTheme } from '../../shared/time_comparison/get_comparison_chart_theme';
@@ -42,13 +34,10 @@ export function ServiceOverviewThroughputChart({
 }) {
   const {
     query: { rangeFrom, rangeTo, comparisonEnabled, offset },
-  } = useAnyOfBSDParams('/services/{serviceName}', '/mobile-services/{serviceName}');
+  } = useAnyOfBSDParams('/services/{serviceName}');
 
   const { environment } = useEnvironmentsContext();
 
-  const preferredAnomalyTimeseries = usePreferredServiceAnomalyTimeseries(
-    AnomalyDetectorType.txThroughput
-  );
 
   const { start, end } = useTimeRange({ rangeFrom, rangeTo });
 
@@ -187,14 +176,7 @@ export function ServiceOverviewThroughputChart({
         timeseries={timeseries}
         yLabelFormat={asExactTransactionRate}
         customTheme={comparisonChartTheme}
-        anomalyTimeseries={
-          preferredAnomalyTimeseries
-            ? {
-                ...preferredAnomalyTimeseries,
-                color: previousPeriodColor,
-              }
-            : undefined
-        }
+        
       />
     </EuiPanel>
   );

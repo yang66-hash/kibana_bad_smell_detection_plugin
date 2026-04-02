@@ -9,7 +9,6 @@ import { useLocation } from 'react-router-dom';
 import { useBSDRouter } from '../../../../hooks/use_bsd_router';
 import { useDateRangeRedirect } from '../../../../hooks/use_date_range_redirect';
 import { isRouteWithTimeRange } from '../../../shared/is_route_with_time_range';
-import { bSDRouter } from '../../bsd_route_config';
 
 // This is a top-level component that blocks rendering of the routes
 // if there is no valid date range, and redirects to one if needed.

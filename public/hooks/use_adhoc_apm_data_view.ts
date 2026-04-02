@@ -5,12 +5,6 @@ import { useEffect, useState } from 'react';
 import { BSDPluginStartDeps } from '../plugin';
 import { callBSDApi } from '../services/rest/create_call_bsd_api';
 
-export async function getBSDDataViewIndexPattern() {
-  const res = await callBSDApi('GET /internal/apm/data_view/index_pattern', {
-    signal: null,
-  });
-  return res.apmDataViewIndexPattern;
-}
 
 export function useAdHocBSDDataView() {
   const { services, notifications } = useKibana<BSDPluginStartDeps>();

@@ -246,26 +246,26 @@ export const getSections = ({
     },
   ];
 
-  const serviceMapHref = apmRouter.link('/service-map', {
-    query: {
-      rangeFrom,
-      rangeTo,
-      environment,
-      kuery: `${TRACE_ID} : "${transaction.trace.id}"`,
-      serviceGroup: '',
-      comparisonEnabled: false,
-    },
-  });
-  const serviceMapActions: Action[] = [
-    {
-      key: 'serviceMap',
-      label: i18n.translate('xpack.apm.transactionActionMenu.showInServiceMapLinkLabel', {
-        defaultMessage: 'Show in service map',
-      }),
-      href: serviceMapHref,
-      condition: true,
-    },
-  ];
+  // const serviceMapHref = apmRouter.link('/service-map', {
+  //   query: {
+  //     rangeFrom,
+  //     rangeTo,
+  //     environment,
+  //     kuery: `${TRACE_ID} : "${transaction.trace.id}"`,
+  //     serviceGroup: '',
+  //     comparisonEnabled: false,
+  //   },
+  // });
+  // const serviceMapActions: Action[] = [
+  //   {
+  //     key: 'serviceMap',
+  //     label: i18n.translate('xpack.apm.transactionActionMenu.showInServiceMapLinkLabel', {
+  //       defaultMessage: 'Show in service map',
+  //     }),
+  //     href: serviceMapHref,
+  //     condition: true,
+  //   },
+  // ];
 
   const sectionRecord: SectionRecord = {
     observability: [
@@ -319,16 +319,16 @@ export const getSections = ({
         }),
         actions: uptimeActions,
       },
-      {
-        key: 'serviceMap',
-        title: i18n.translate('xpack.apm.transactionActionMenu.serviceMap.title', {
-          defaultMessage: 'Service Map',
-        }),
-        subtitle: i18n.translate('xpack.apm.transactionActionMenu.serviceMap.subtitle', {
-          defaultMessage: 'View service map filtered by this trace.',
-        }),
-        actions: serviceMapActions,
-      },
+      // {
+      //   key: 'serviceMap',
+      //   title: i18n.translate('xpack.apm.transactionActionMenu.serviceMap.title', {
+      //     defaultMessage: 'Service Map',
+      //   }),
+      //   subtitle: i18n.translate('xpack.apm.transactionActionMenu.serviceMap.subtitle', {
+      //     defaultMessage: 'View service map filtered by this trace.',
+      //   }),
+      //   actions: serviceMapActions,
+      // },
     ],
     kibana: [{ key: 'kibana', actions: kibanaActions }],
   };

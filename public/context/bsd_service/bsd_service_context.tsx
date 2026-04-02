@@ -47,7 +47,7 @@ export function ApmServiceContextProvider({ children }: { children: ReactNode })
     path: { serviceName },
     query,
     query: { kuery, rangeFrom, rangeTo },
-  } = useAnyOfBSDParams('/services/{serviceName}', '/mobile-services/{serviceName}');
+  } = useAnyOfBSDParams('/services/{serviceName}');
 
   const { start, end } = useTimeRange({ rangeFrom, rangeTo });
 

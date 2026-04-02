@@ -9,19 +9,13 @@ import { EuiFlexGroup, EuiFlexItem, EuiSpacer, EuiText, EuiTitle } from '@elasti
 import { i18n } from '@kbn/i18n';
 import { isEmpty } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { INVALID_LICENSE } from '../../../../../common/custom_link';
 import { CustomLink } from '../../../../../common/custom_link/custom_link_types';
-import { useLicenseContext } from '../../../../context/license/use_license_context';
 import { FETCH_STATUS, useFetcher } from '../../../../hooks/use_fetcher';
-import { LicensePrompt } from '../../../shared/license_prompt';
 import { CreateCustomLinkButton } from './create_custom_link_button';
 import { CreateEditCustomLinkFlyout } from './create_edit_custom_link_flyout';
-import { CustomLinkTable } from './custom_link_table';
-import { EmptyPrompt } from './empty_prompt';
+
 
 export function CustomLinkOverview() {
-  const license = useLicenseContext();
-  const hasValidLicense = license?.isActive && license?.hasAtLeast('gold');
 
   const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
   const [customLinkSelected, setCustomLinkSelected] = useState<CustomLink | undefined>();
@@ -82,7 +76,7 @@ export function CustomLinkOverview() {
             </h2>
           </EuiTitle>
         </EuiFlexItem>
-        {hasValidLicense && !showEmptyPrompt && (
+        { !showEmptyPrompt && (
           <EuiFlexItem>
             <EuiFlexGroup alignItems="center" justifyContent="flexEnd">
               <EuiFlexItem grow={false}>
@@ -104,15 +98,6 @@ export function CustomLinkOverview() {
 
       <EuiSpacer size="m" />
 
-      {hasValidLicense ? (
-        showEmptyPrompt ? (
-          <EmptyPrompt onCreateCustomLinkClick={onCreateCustomLinkClick} />
-        ) : (
-          <CustomLinkTable items={customLinks} onCustomLinkSelected={setCustomLinkSelected} />
-        )
-      ) : (
-        <LicensePrompt text={INVALID_LICENSE} />
-      )}
     </>
   );
 }

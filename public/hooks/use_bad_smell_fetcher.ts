@@ -19,7 +19,7 @@ export function useBSSetDataFetcher(){
         const getBSSetData = async () => {
             try {
                 console.log('Fetching BSSet data...');
-                const response = await http?.get('/api/bsd/bs_set');
+                const response = await http?.get('/api/bsd/bs-set');
                 console.log('Fetched BSSet:', response);
                 console.log('BSSet length in response:', response.BSSet.length);
                 setBSSet(response.BSSet);

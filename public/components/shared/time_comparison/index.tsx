@@ -13,7 +13,6 @@ import { euiStyled } from '@kbn/kibana-react-plugin/common';
 import { useUiTracker } from '@kbn/observability-shared-plugin/public';
 import { useBSDRouter } from '../../../hooks/use_bsd_router';
 import { useEnvironmentsContext } from '../../../context/environments_context/use_environments_context';
-import { useAnomalyDetectionJobsContext } from '../../../context/anomaly_detection_jobs/use_anomaly_detection_jobs_context';
 import { useBSDPluginContext } from '../../../context/bsd_plugin/use_bsd_plugin_context';
 import { useAnyOfBSDParams } from '../../../hooks/use_bsd_params';
 import { useBreakpoints } from '../../../hooks/use_breakpoints';
@@ -35,12 +34,11 @@ export function TimeComparison() {
   const { isSmall, isMedium } = useBreakpoints();
   const {
     query: { rangeFrom, rangeTo, comparisonEnabled, offset },
-  } = useAnyOfBSDParams('/services', '/dependencies/*', '/services/{serviceName}');
+  } = useAnyOfBSDParams('/services', '/services/{serviceName}');
 
   const location = useLocation();
   const apmRouter = useBSDRouter();
 
-  const { anomalyDetectionJobsStatus, anomalyDetectionJobsData } = useAnomalyDetectionJobsContext();
   const { core } = useBSDPluginContext();
   const { preferredEnvironment } = useEnvironmentsContext();
 
@@ -63,16 +61,12 @@ export function TimeComparison() {
       start,
       end,
       showSelectedBoundsOption: showExpectedBoundsForThisTab && canGetJobs,
-      anomalyDetectionJobsStatus,
-      anomalyDetectionJobsData,
       preferredEnvironment,
     });
 
     return timeComparisonOptions;
   }, [
     canGetJobs,
-    anomalyDetectionJobsStatus,
-    anomalyDetectionJobsData,
     start,
     end,
     preferredEnvironment,

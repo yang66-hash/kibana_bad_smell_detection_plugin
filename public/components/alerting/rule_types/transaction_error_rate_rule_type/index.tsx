@@ -1,10 +1,3 @@
-/*
- * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
- * or more contributor license agreements. Licensed under the Elastic License
- * 2.0; you may not use this file except in compliance with the Elastic License
- * 2.0.
- */
-
 import { defaults, omit } from 'lodash';
 import { i18n } from '@kbn/i18n';
 import React, { useCallback, useEffect } from 'react';
@@ -18,7 +11,7 @@ import { SearchConfigurationType } from '../../../../../common/rules/schema';
 import { ENVIRONMENT_ALL } from '../../../../../common/environment_filter_values';
 import { asPercent } from '../../../../../common/utils/formatters';
 import { FETCH_STATUS, isPending, useFetcher } from '../../../../hooks/use_fetcher';
-import { createCallApmApi } from '../../../../services/rest/create_call_apm_api';
+import { createCallBSDApi } from '../../../../services/rest/create_call_bsd_api';
 import { ChartPreview } from '../../ui_components/chart_preview';
 import {
   EnvironmentField,
@@ -35,7 +28,7 @@ import {
   SERVICE_ENVIRONMENT,
   TRANSACTION_TYPE,
   TRANSACTION_NAME,
-} from '../../../../../common/es_fields/apm';
+} from '../../../../../common/es_fields/bsd';
 import {
   ErrorState,
   LoadingState,
@@ -68,7 +61,7 @@ export function TransactionErrorRateRuleType(props: Props) {
   const { ruleParams, metadata, setRuleParams, setRuleProperty } = props;
 
   useEffect(() => {
-    createCallApmApi(services as CoreStart);
+    createCallBSDApi(services as CoreStart);
   }, [services]);
 
   const params = defaults(

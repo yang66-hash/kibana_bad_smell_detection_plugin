@@ -25,7 +25,7 @@ import { useFetcher, isPending } from '../../../../../../../hooks/use_fetcher';
 import { TransactionMetadata } from '../../../../../../shared/metadata_table/transaction_metadata';
 import { getSpanLinksTabContent } from '../../../../../../shared/span_links/span_links_tab_content';
 import { TransactionSummary } from '../../../../../../shared/summary/transaction_summary';
-import { TransactionActionMenu } from '../../../../../../shared/transaction_action_menu/transaction_action_menu';
+// import { TransactionActionMenu } from '../../../../../../shared/transaction_action_menu/transaction_action_menu';
 import { FlyoutTopLevelProperties } from '../flyout_top_level_properties';
 import { ResponsiveFlyout } from '../responsive_flyout';
 import { SpanLinksCount } from '../waterfall_helpers/waterfall_helpers';
@@ -83,11 +83,11 @@ export function TransactionFlyout({
               </EuiTitle>
             </EuiFlexItem>
 
-            {transaction && (
+            {/* {transaction && (
               <EuiFlexItem grow={false}>
                 <TransactionActionMenu isLoading={false} transaction={transaction} />
               </EuiFlexItem>
-            )}
+            )} */}
           </EuiFlexGroup>
         </EuiFlyoutHeader>
         <EuiFlyoutBody>

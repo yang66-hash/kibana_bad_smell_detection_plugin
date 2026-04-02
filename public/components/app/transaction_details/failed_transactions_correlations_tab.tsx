@@ -11,25 +11,14 @@ import { i18n } from '@kbn/i18n';
 
 import { METRIC_TYPE, useTrackMetric } from '@kbn/observability-shared-plugin/public';
 
-// import { isActivePlatinumLicense } from '../../../../common/license_check';
-
-import { useLicenseContext } from '../../../context/license/use_license_context';
-
-// import { LicensePrompt } from '../../shared/license_prompt';
-
 import { FailedTransactionsCorrelations } from '../correlations/failed_transactions_correlations';
 import { TabContentProps } from './transaction_details_tabs';
 
 function FailedTransactionsCorrelationsTab({ onFilter }: TabContentProps) {
-  // const license = useLicenseContext();
 
-  // const hasActivePlatinumLicense = isActivePlatinumLicense(license);
 
   const metric = {
     app: 'apm' as const,
-    // metric: hasActivePlatinumLicense
-    //   ? 'failed_transactions_tab_view'
-    //   : 'failed_transactions_license_prompt',
     metric: 'failed_transactions_tab_view',
     metricType: METRIC_TYPE.COUNT as METRIC_TYPE.COUNT,
   };
@@ -39,15 +28,7 @@ function FailedTransactionsCorrelationsTab({ onFilter }: TabContentProps) {
   return (
     <FailedTransactionsCorrelations onFilter={onFilter} />
   );
-  // return hasActivePlatinumLicense ? (
-  //   <FailedTransactionsCorrelations onFilter={onFilter} />
-  // ) : (
-  //   <LicensePrompt
-  //     text={i18n.translate('xpack.apm.failedTransactionsCorrelations.licenseCheckText', {
-  //       defaultMessage: `To use the failed transaction correlations feature, you must be subscribed to an Elastic Platinum license. With it, you'll be able to discover which attributes are contributing to failed transactions.`,
-  //     })}
-  //   />
-  // );
+
 }
 
 export const failedTransactionsCorrelationsTab = {

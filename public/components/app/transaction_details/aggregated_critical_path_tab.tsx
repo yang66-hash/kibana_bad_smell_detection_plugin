@@ -19,8 +19,7 @@ function TransactionDetailAggregatedCriticalPath({ traceSamplesFetchResult }: Ta
     path: { serviceName },
     query: { rangeFrom, rangeTo, transactionName },
   } = useAnyOfBSDParams(
-    '/services/{serviceName}/transactions/view',
-    '/mobile-services/{serviceName}/transactions/view'
+    '/services/{serviceName}/transactions/view'
   );
 
   const { start, end } = useTimeRange({ rangeFrom, rangeTo });

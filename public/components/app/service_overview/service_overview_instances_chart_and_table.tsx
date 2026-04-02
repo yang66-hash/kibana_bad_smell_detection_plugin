@@ -14,7 +14,6 @@ import { useBSDParams } from '../../../hooks/use_bsd_params';
 import { FETCH_STATUS, isPending, useFetcher } from '../../../hooks/use_fetcher';
 import { useTimeRange } from '../../../hooks/use_time_range';
 import { APIReturnType } from '../../../services/rest/create_call_bsd_api';
-import { InstancesLatencyDistributionChart } from '../../shared/charts/instances_latency_distribution_chart';
 import { ServiceOverviewInstancesTable, TableOptions } from './service_overview_instances_table';
 import { LatencyAggregationType } from '../../../../common/latency_aggregation_types';
 import { InstancesSortField } from '../../../../common/instances';
@@ -189,14 +188,6 @@ export function ServiceOverviewInstancesChartAndTable({
 
   return (
     <>
-      <EuiFlexItem grow={3}>
-        <InstancesLatencyDistributionChart
-          height={chartHeight}
-          items={currentPeriodItems}
-          status={mainStatsStatus}
-          comparisonItems={previousPeriodItems}
-        />
-      </EuiFlexItem>
       <EuiFlexItem grow={7}>
         <EuiPanel hasBorder={true}>
           <ServiceOverviewInstancesTable

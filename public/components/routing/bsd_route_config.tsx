@@ -15,19 +15,17 @@ import { TraceLink } from '../app/trace_link';
 import { TransactionLink } from '../app/transaction_link';
 import { homeRoute } from './home';
 import { serviceDetailRoute } from './service_detail';
-import { mobileServiceDetailRoute } from './mobile_service_detail';
-import { settingsRoute } from './settings';
+// import { mobileServiceDetailRoute } from './mobile_service_detail';
+// import { settingsRoute } from './settings';
 import { onboarding } from './onboarding';
-import { tutorialRedirectRoute } from './onboarding/redirect';
+// import { tutorialRedirectRoute } from './onboarding/redirect';
 import { BSDMainTemplate } from './templates/bsd_main_template';
 import { ServiceGroupsList } from '../app/service_groups';
 import { offsetRt } from '../../../common/comparison_rt';
-import { diagnosticsRoute } from '../app/diagnostics';
+// import { diagnosticsRoute } from '../app/diagnostics';
 import { TransactionDetailsByNameLink } from '../app/transaction_details_link';
 
-const ServiceGroupsTitle = i18n.translate('xpack.apm.views.serviceGroups.title', {
-  defaultMessage: 'Services',
-});
+
 
 /**
  * The array of route definitions to be used when the application
@@ -89,12 +87,12 @@ const bSDRoutes = {
       </Breadcrumb>
     ),
     children: {
-      ...tutorialRedirectRoute,
+      // ...tutorialRedirectRoute,
       ...onboarding,
-      ...diagnosticsRoute,
-      ...settingsRoute,
+      // ...diagnosticsRoute,
+      // ...settingsRoute,
       ...serviceDetailRoute,
-      ...mobileServiceDetailRoute,
+      // ...mobileServiceDetailRoute,
       ...homeRoute,
     },
   },

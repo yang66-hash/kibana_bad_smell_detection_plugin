@@ -16,7 +16,6 @@ import { TraceSearchType } from '../../../../common/trace_explorer';
 import { ApmTimeRangeMetadataContextProvider } from '../../../context/time_range_metadata/time_range_metadata_context';
 import { Breadcrumb } from '../../app/breadcrumb';
 import { ServiceInventory } from '../../app/service_inventory';
-import { ServiceMapHome } from '../../app/service_map';
 import { TopTracesOverview } from '../../app/top_traces_overview';
 import { TraceExplorer } from '../../app/trace_explorer';
 import { TraceExplorerAggregatedCriticalPath } from '../../app/trace_explorer/trace_explorer_aggregated_critical_path';
@@ -26,7 +25,7 @@ import { TransactionTab } from '../../app/transaction_details/waterfall_with_sum
 import { RedirectTo } from '../redirect_to';
 import { ServiceGroupTemplate } from '../templates/service_group_template';
 import { dependencies } from './dependencies';
-import { legacyBackends } from './legacy_backends';
+// import { legacyBackends } from './legacy_backends';
 import { storageExplorer } from './storage_explorer';
 import { KnowledgeBase } from '../../knowledge_base/bs_knowledge_base';
 import { BadSmellSingle } from '../../knowledge_base/bs_single_page/bad_smell_single';
@@ -186,24 +185,24 @@ export const homeRoute = {
         element: <ServiceInventory />,
         serviceGroupContextTab: 'service-inventory',
       }),
-      ...serviceGroupPage({
-        path: '/service-map',
-        title: ServiceMapTitle,
-        element: <ServiceMapHome />,
-        serviceGroupContextTab: 'service-map',
-      }),
+      // ...serviceGroupPage({
+      //   path: '/service-map',
+      //   title: ServiceMapTitle,
+      //   element: <ServiceMapHome />,
+      //   serviceGroupContextTab: 'service-map',
+      // }),
       '/traces': {
         element: (
           <TraceOverview>
             <Outlet />
           </TraceOverview>
         ),
-        children: {
-          '/traces': {
-            element: <TopTracesOverview />,
+        // children: {
+        //   '/traces': {
+        //     element: <TopTracesOverview />,
             
-          },
-        },
+        //   },
+        // },
       },
       '/detect':{
         element: (
@@ -314,9 +313,9 @@ export const homeRoute = {
         element: <StastisticPanel />,
       },
       
-      ...dependencies,
-      ...legacyBackends,
-      ...storageExplorer,
+      // ...dependencies,
+      // ...legacyBackends,
+      // ...storageExplorer,
     },
   }
 };

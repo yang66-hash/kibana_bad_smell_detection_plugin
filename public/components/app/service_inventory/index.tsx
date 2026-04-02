@@ -25,7 +25,6 @@ import { SearchBar } from '../../shared/search_bar/search_bar';
 import { isTimeComparison } from '../../shared/time_comparison/get_comparison_options';
 import { ServiceList } from './service_list';
 import { orderServiceItems } from './service_list/order_service_items';
-import { JavaAgentName } from '@kbn/elastic-agent-utils';
 
 type MainStatisticsApiResponse = APIReturnType<'GET /internal/apm/services'>;
 

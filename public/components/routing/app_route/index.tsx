@@ -20,7 +20,6 @@ import React from 'react';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
 import { EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
 import { useKibanaEnvironmentContextProvider } from '../../../context/kibana_environment_context/use_kibana_environment_context';
-import { AnomalyDetectionJobsContextProvider } from '../../../context/anomaly_detection_jobs/anomaly_detection_jobs_context';
 import {
   BSDPluginContext,
   BSDPluginContextValue,
@@ -78,7 +77,6 @@ export function BSDAppRoot({
                                 <UpdateExecutionContextOnRouteChange>
                                   <BreadcrumbsContextProvider>
                                     <UrlParamsProvider>
-                                        <AnomalyDetectionJobsContextProvider>
                                           <InspectorContextProvider>
                                             <BSDThemeProvider>
                                               {/* <MountBSDHeaderActionMenu /> */}
@@ -87,7 +85,6 @@ export function BSDAppRoot({
                                               <RouteRenderer />
                                             </BSDThemeProvider>
                                           </InspectorContextProvider>
-                                        </AnomalyDetectionJobsContextProvider>
                                     </UrlParamsProvider>
                                   </BreadcrumbsContextProvider>
                                 </UpdateExecutionContextOnRouteChange>

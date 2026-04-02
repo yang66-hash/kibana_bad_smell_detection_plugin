@@ -132,12 +132,10 @@ export interface BSDPluginStartDeps {
 const servicesTitle = 'Services';
 const serviceGroupsTitle =  'Service groups';
 const tracesTitle = 'Traces';
-const serviceMapTitle = 'Service Map';
 const dependenciesTitle =  'Dependencies';
 const bSDSettingsTitle = 'Settings';
 const bSDStorageExplorerTitle = 'Storage Explorer';
 const bSDTutorialTitle = 'Tutorial';
-const detectionTitle = 'detecting';
 
 export class BSDPlugin implements Plugin<BSDPluginSetup, BSDPluginStart> {
   private readonly navigationRegistry = createNavigationRegistry();
@@ -218,7 +216,6 @@ export class BSDPlugin implements Plugin<BSDPluginSetup, BSDPluginStart> {
           sortKey: 300,
           entries: [
             { label: 'Services', app: 'bsd', path: '/services', matchFullPath: false },
-            { label: 'Traces', app: 'bsd', path: '/traces', matchFullPath: false },
           ],
         },
         {
@@ -233,7 +230,6 @@ export class BSDPlugin implements Plugin<BSDPluginSetup, BSDPluginStart> {
       ]
     ));
 
-    console.log("ssssssssssssssssssssssssssss");
     core.application.register({
       id: 'bsd',
       title: 'Bad Smell Detection',
@@ -251,11 +247,6 @@ export class BSDPlugin implements Plugin<BSDPluginSetup, BSDPluginStart> {
           id: 'services',
           title: servicesTitle,
           path: '/services',
-        },
-        {
-          id: 'traces',
-          title: tracesTitle,
-          path: '/traces',
         },
         {
           id: 'dependencies',

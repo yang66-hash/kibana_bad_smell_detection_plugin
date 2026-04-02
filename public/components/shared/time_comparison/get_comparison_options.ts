@@ -8,7 +8,6 @@
 import moment from 'moment';
 import { i18n } from '@kbn/i18n';
 import { Environment } from '../../../../common/environment_rt';
-import { AnomalyDetectionJobsContextValue } from '../../../context/anomaly_detection_jobs/anomaly_detection_jobs_context';
 import { getOffsetInMs } from '../../../../common/utils/get_offset_in_ms';
 
 export enum TimeRangeComparisonEnum {
@@ -108,13 +107,9 @@ export function getComparisonOptions({
   start,
   end,
   showSelectedBoundsOption,
-  anomalyDetectionJobsStatus,
-  anomalyDetectionJobsData,
   preferredEnvironment,
 }: {
   showSelectedBoundsOption?: boolean;
-  anomalyDetectionJobsStatus?: AnomalyDetectionJobsContextValue['anomalyDetectionJobsStatus'];
-  anomalyDetectionJobsData?: AnomalyDetectionJobsContextValue['anomalyDetectionJobsData'];
   preferredEnvironment?: Environment;
   start?: string;
   end?: string;
@@ -137,7 +132,6 @@ export function getComparisonOptions({
     comparisonTypes = [TimeRangeComparisonEnum.PeriodBefore];
   }
 
-  const hasMLJob = isDefined(anomalyDetectionJobsData) && anomalyDetectionJobsData.jobs.length > 0;
 
   const comparisonOptions = getSelectOptions({
     comparisonTypes,
@@ -145,23 +139,6 @@ export function getComparisonOptions({
     end: momentEnd,
     msDiff,
   });
-
-  if (showSelectedBoundsOption && hasMLJob) {
-    const disabled =
-      anomalyDetectionJobsStatus === 'success' &&
-      !anomalyDetectionJobsData.jobs.some((j) => j.environment === preferredEnvironment);
-    comparisonOptions.push({
-      value: TimeRangeComparisonEnum.ExpectedBounds,
-      text: disabled
-        ? i18n.translate('xpack.apm.comparison.mlExpectedBoundsDisabledText', {
-            defaultMessage: 'Expected bounds (Anomaly detection must be enabled for env)',
-          })
-        : i18n.translate('xpack.apm.comparison.mlExpectedBoundsText', {
-            defaultMessage: 'Expected bounds',
-          }),
-      disabled,
-    });
-  }
 
   return comparisonOptions;
 }

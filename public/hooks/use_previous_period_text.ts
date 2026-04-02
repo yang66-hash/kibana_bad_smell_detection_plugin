@@ -21,9 +21,7 @@ export const usePreviousPeriodLabel = () => {
     query: { rangeFrom, rangeTo, offset },
   } = useAnyOfBSDParams(
     '/services',
-    '/dependencies/*',
     '/services/{serviceName}',
-    '/mobile-services/{serviceName}/*'
   );
 
   const { start, end } = useTimeRange({ rangeFrom, rangeTo });

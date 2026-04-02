@@ -307,11 +307,11 @@ const onSwitchChange = (e:any) => {
                             </p>
                         }
                         >
-                        <EuiFormRow label="Time Interal(unit: minute)">
+                        <EuiFormRow label="Time Interal(unit: second)">
                             <EuiFieldNumber
-                            defaultValue={5}
-                            min={1}
-                            max={6}
+                            defaultValue={30}
+                            min={10}
+                            max={120}
                             step={1}
                             onChange={(e) => onIntervalChange(e)}
                             readOnly={!checked}

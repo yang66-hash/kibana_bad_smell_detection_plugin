@@ -17,7 +17,6 @@ import {
 import { i18n } from '@kbn/i18n';
 import React, { useEffect, useState } from 'react';
 import { TransactionSummary } from '../../../shared/summary/transaction_summary';
-import { TransactionActionMenu } from '../../../shared/transaction_action_menu/transaction_action_menu';
 import { MaybeViewTraceLink } from './maybe_view_trace_link';
 import { TransactionTab, TransactionTabs } from './transaction_tabs';
 import { Environment } from '../../../../../common/environment_rt';
@@ -112,7 +111,7 @@ export function WaterfallWithSummary<TSample extends {}>({
             <EuiTitle size="xs">
               <h5>
                 {i18n.translate('xpack.apm.transactionDetails.traceSampleTitle', {
-                  defaultMessage: 'Trace sample',
+                  defaultMessage: 'Trace',
                 })}
               </h5>
             </EuiTitle>
@@ -129,9 +128,6 @@ export function WaterfallWithSummary<TSample extends {}>({
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             <EuiFlexGroup justifyContent="flexEnd">
-              <EuiFlexItem grow={false}>
-                <TransactionActionMenu isLoading={isLoading} transaction={entryTransaction} />
-              </EuiFlexItem>
               <EuiFlexItem grow={false}>
                 <MaybeViewTraceLink
                   isLoading={isLoading}

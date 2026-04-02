@@ -36,8 +36,7 @@ export function SpanLinks({ spanLinksCount, traceId, spanId, processorEvent }: P
   const {
     query: { rangeFrom, rangeTo },
   } = useAnyOfBSDParams(
-    '/services/{serviceName}/transactions/view',
-    '/mobile-services/{serviceName}/transactions/view'
+    '/services/{serviceName}/transactions/view'
   );
   const { start, end } = useTimeRange({ rangeFrom, rangeTo });
 

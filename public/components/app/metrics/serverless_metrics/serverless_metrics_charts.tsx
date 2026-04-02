@@ -40,11 +40,11 @@ export function ServerlessMetricsCharts({ serverlessId }: Props) {
   });
 
   const { data = INITIAL_STATE, status } = useFetcher(
-    (callApmApi) => {
+    (callBSDApi) => {
       if (!start || !end || !preferred) {
         return undefined;
       }
-      return callApmApi('GET /internal/apm/services/{serviceName}/metrics/serverless/charts', {
+      return callBSDApi('GET /internal/apm/services/{serviceName}/metrics/serverless/charts', {
         params: {
           path: {
             serviceName,

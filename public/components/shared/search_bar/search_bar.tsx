@@ -8,7 +8,6 @@ import { EuiFlexGroup, EuiFlexGroupProps, EuiFlexItem, EuiSpacer } from '@elasti
 import React from 'react';
 import { QueryDslQueryContainer } from '@elastic/elasticsearch/lib/api/typesWithBodyKey';
 import { useBreakpoints } from '../../../hooks/use_breakpoints';
-import { TimeComparison } from '../time_comparison';
 import { TransactionTypeSelect } from '../transaction_type_select';
 import { UnifiedSearchBar } from '../unified_search_bar';
 
@@ -73,11 +72,6 @@ export function SearchBar({
             gutterSize="s"
             responsive={false}
           >
-            {showTimeComparison && (
-              <EuiFlexItem grow={isXXXL} style={{ minWidth: 300 }}>
-                <TimeComparison />
-              </EuiFlexItem>
-            )}
           </EuiFlexGroup>
         </EuiFlexItem>
       </EuiFlexGroup>

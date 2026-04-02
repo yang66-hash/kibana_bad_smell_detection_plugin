@@ -1,10 +1,3 @@
-/*
- * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
- * or more contributor license agreements. Licensed under the Elastic License
- * 2.0; you may not use this file except in compliance with the Elastic License
- * 2.0.
- */
-
 import {
   EuiPageHeaderProps,
   EuiFlexGroup,
@@ -38,7 +31,7 @@ export function ServiceGroupTemplate({
   const {
     query,
     query: { serviceGroup: serviceGroupId },
-  } = useAnyOfBSDParams('/services', '/service-map');
+  } = useAnyOfBSDParams('/services');
 
   const { data } = useFetcher(
     (callApmApi) => {
@@ -124,7 +117,7 @@ export function ServiceGroupTemplate({
         ...pageHeader,
       }}
       environmentFilter={environmentFilter}
-      showServiceGroupSaveButton={!isAllServices}
+      // showServiceGroupSaveButton={!isAllServices}
       showServiceGroupsNav={isAllServices}
       selectedNavButton={isAllServices ? 'allServices' : 'serviceGroups'}
       {...pageTemplateProps}
@@ -135,24 +128,19 @@ export function ServiceGroupTemplate({
 }
 
 type ServiceGroupContextTab = NonNullable<EuiPageHeaderProps['tabs']>[0] & {
-  key: 'service-inventory' | 'service-map';
+  key: 'service-inventory';
 };
 
 function useTabs(selectedTab: ServiceGroupContextTab['key']) {
   const router = useBSDRouter();
-  const { query } = useAnyOfBSDParams('/services', '/service-map');
+  const { query } = useAnyOfBSDParams('/services');
 
   const tabs: ServiceGroupContextTab[] = [
     {
       key: 'service-inventory',
       label: 'Inventory',
       href: router.link('/services', { query }),
-    },
-    {
-      key: 'service-map',
-      label: 'Service Map',
-      href: router.link('/service-map', { query }),
-    },
+    }
   ];
 
   return tabs

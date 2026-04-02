@@ -23,9 +23,7 @@ export function useErrorGroupDistributionFetcher({
   const {
     query: { rangeFrom, rangeTo, offset, comparisonEnabled },
   } = useAnyOfBSDParams(
-    '/services/{serviceName}/errors',
-    '/mobile-services/{serviceName}/errors-and-crashes'
-  );
+    '/services/{serviceName}/errors'  );
 
   const { start, end } = useTimeRange({ rangeFrom, rangeTo });
 

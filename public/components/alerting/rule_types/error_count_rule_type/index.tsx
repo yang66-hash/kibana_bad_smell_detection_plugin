@@ -35,7 +35,7 @@ import {
   TRANSACTION_NAME,
   ERROR_GROUP_ID,
   ERROR_GROUP_NAME,
-} from '../../../../../common/es_fields/apm';
+} from '../../../../../common/es_fields/bsd';
 import {
   ErrorState,
   LoadingState,

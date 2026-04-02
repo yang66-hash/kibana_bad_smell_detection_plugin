@@ -108,6 +108,14 @@ export function TransactionsTable({
       transactionType,
     });
 
+  // 稳定化 query 对象
+  const stableQuery = useMemo(() => query, [
+    query.comparisonEnabled,
+    query.offset,
+    query.latencyAggregationType,
+    // 添加其他 query 对象的属性
+  ]);
+
   const columns = useMemo(() => {
     return getColumns({
       serviceName,
@@ -120,7 +128,7 @@ export function TransactionsTable({
       transactionOverflowCount: mainStatistics.transactionOverflowCount,
       showAlertsColumn: mainStatistics.hasActiveAlerts,
       link,
-      query,
+      query: stableQuery,
     });
   }, [
     comparisonEnabled,
@@ -131,7 +139,7 @@ export function TransactionsTable({
     mainStatistics.hasActiveAlerts,
     mainStatistics.transactionOverflowCount,
     offset,
-    query,
+    stableQuery,
     serviceName,
     shouldShowSparkPlots,
   ]);
@@ -153,22 +161,23 @@ export function TransactionsTable({
     };
   }, [isTableSearchBarEnabled, mainStatistics.maxCountExceeded, setSearchQueryDebounced]);
 
+  // 使用 useMemo 来稳定化 screenContext 数据
+  const screenContextData = useMemo(() => ({
+    data: [
+      {
+        name: 'top_transactions',
+        description: 'The visible transaction groups',
+        value: mainStatistics.transactionGroups.map((group) => ({
+          name: group.name,
+          alertsCount: group.alertsCount,
+        })),
+      },
+    ],
+  }), [mainStatistics.transactionGroups, mainStatistics.hasActiveAlerts, mainStatistics.transactionOverflowCount]);
+
   useEffect(() => {
-    return setScreenContext?.({
-      data: [
-        {
-          name: 'top_transactions',
-          description: 'The visible transaction groups',
-          value: mainStatistics.transactionGroups.map((group) => {
-            return {
-              name: group.name,
-              alertsCount: group.alertsCount,
-            };
-          }),
-        },
-      ],
-    });
-  }, [setScreenContext, mainStatistics]);
+    return setScreenContext?.(screenContextData);
+  }, [setScreenContext, screenContextData]);
 
   return (
     <EuiFlexGroup direction="column" gutterSize="s" data-test-subj="transactionsGroupTable">

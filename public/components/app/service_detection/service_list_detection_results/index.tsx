@@ -54,7 +54,7 @@ export function getDetectionResColumns({
         name: 'serviceName',
         sortable: true,
         render: (_, { targetInstance }) => (
-          <EuiBadge color='success'>{targetInstance}</EuiBadge>
+          <EuiBadge color='hollow'>{targetInstance}</EuiBadge>
         ),
       },
       {
@@ -91,7 +91,8 @@ export function getDetectionResColumns({
               gap: '8px',
               alignItems: 'center'
             }}>
-              {involvedBSPriType.sort().map((index) => {
+              {involvedBSPriType.sort().map((value) => {
+                const index = value.trim();
                 return (
                   <div key={index} style={{
                     display: 'inline-flex',
@@ -123,21 +124,21 @@ export function getDetectionResColumns({
           );
         },
       },
-      {
-        field: ServiceDetectionResultsFieldName.WarningStatus,
-        name: 'InvolvedBSDetail',
-        sortable: true,
-        render: (_, {involvedBSSet}) => {
+      // {
+      //   field: ServiceDetectionResultsFieldName.WarningStatus,
+      //   name: 'InvolvedBSDetail',
+      //   sortable: true,
+      //   render: (_, {involvedBSSet}) => {
             
-            return (
-                <div>
-                    {involvedBSSet.map((index) => (
-                      <EuiBadge color='warning'>{index}</EuiBadge>
-                    ))}
-                </div>
-                );
-        },
-      }
+      //       return (
+      //           <div>
+      //               {involvedBSSet.map((index) => (
+      //                 <EuiBadge color='warning'>{index}</EuiBadge>
+      //               ))}
+      //           </div>
+      //           );
+      //   },
+      // }
   
   
     ];

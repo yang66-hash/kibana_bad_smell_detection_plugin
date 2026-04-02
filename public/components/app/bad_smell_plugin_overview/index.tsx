@@ -2,7 +2,7 @@
 import React from 'react';
 import { BSDMainTemplate } from '../../routing/templates/bsd_main_template';
 import { Breadcrumb } from '../breadcrumb';
-import { BSDOnboardingCallout } from '../bsd_onboarding_callout/bsd_onboarding_callout';
+import { BSDOnboardingCallout } from '../bsd_callout/bsd_onboarding_callout';
 import { EuiFlexGroup, EuiFlexItem, EuiHorizontalRule, EuiSpacer, EuiText } from '@elastic/eui';
 import { SectionContainer } from '../../shared/sections/section_container';
 import { BAD_SMELL_DETECTION_INTRODUCTION } from '../../../../common/bsd_intro_constant';

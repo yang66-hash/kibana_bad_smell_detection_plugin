@@ -47,11 +47,15 @@ export function KnowledgeBase(){
   console.log("BSSet:", BSSet);
   console.log("badSmellFilter:", badSmellFilter);
   console.log("searchTerm:", searchTerm);
-    //filter the bad smells base on the conditions of category and name search;
-    return BSSet?.filter((bs)=>badSmellFilter?bs.categoryIndex===badSmellFilter:true)
-             .filter((bs)=>searchTerm? bs.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) : true);
+  
+  //filter the bad smells base on the conditions of category and name search;
+  const filtered = BSSet?.filter((bs)=>badSmellFilter?bs.categoryIndex===badSmellFilter:true)
+               .filter((bs)=>searchTerm? bs.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()) : true);
+  
+  // 按字母顺序排序
+  return filtered?.sort((a, b) => a.name.localeCompare(b.name));
 
-  },[BSSet,badSmellFilter,searchTerm]);
+},[BSSet,badSmellFilter,searchTerm]);
 
   const handleBadSmellSelect = (bs:IBadSmell) => {
     navigateToApp('bsd',{path:`/bad_smell?name=${bs.name}`});
@@ -61,20 +65,22 @@ export function KnowledgeBase(){
   const renderBadSemllList = () => {  
     return (
       <EuiFlexGrid columns={3}>
-        {filteredBadSmells?.map((bs) => (
+        {filteredBadSmells
+          ?.sort((a, b) => a.name.localeCompare(b.name)) // 在渲染时排序
+          ?.map((bs) => (
             <EuiFlexItem key={bs.name} grow>
-            <BadSmellCheckable
-              badSmell={bs}
-              iconType={'logoSecurity'}
-              badSmellStatus={bs.detectable?'Detectable':'Undetectable'}
-              detectStatus={bs.realized}
-              detectMethod = {bs.detectMethod}
-              name={bs.name}
-              description={bs.description} 
-              onBadSmellSelect={() => handleBadSmellSelect(bs)}
-            />
-          </EuiFlexItem>
-        ))}
+              <BadSmellCheckable
+                badSmell={bs}
+                iconType={'logoSecurity'}
+                badSmellStatus={bs.detectable?'Detectable':'Undetectable'}
+                detectStatus={bs.realized}
+                detectMethod = {bs.detectMethod}
+                name={bs.name}
+                description={bs.description} 
+                onBadSmellSelect={() => handleBadSmellSelect(bs)}
+              />
+            </EuiFlexItem>
+          ))}
       </EuiFlexGrid>
     );
   };
@@ -203,6 +209,20 @@ export function KnowledgeBase(){
                     'plugins.badSmellDetection.base.knowlwdgebase.teamLabel',
                     {
                       defaultMessage: 'Team & Technology',
+                    }
+                  )}
+                </EuiFacetButton>
+              )}
+              {(
+                <EuiFacetButton
+                  quantity={BSSet?.filter(bs=>bs.categoryIndex==='8').length}
+                  onClick={() => setBadSmellFilter('8')}
+
+                >
+                  {i18n.translate(
+                    'plugins.badSmellDetection.base.knowlwdgebase.dynamicLabel',
+                    {
+                      defaultMessage: 'Dynamic',
                     }
                   )}
                 </EuiFacetButton>

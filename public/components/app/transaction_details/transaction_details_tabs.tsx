@@ -5,7 +5,7 @@
  * 2.0.
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { XYBrushEvent } from '@elastic/charts';
 import { EuiPanel, EuiSpacer, EuiTab, EuiTabs } from '@elastic/eui';
@@ -14,7 +14,6 @@ import { useHistory } from 'react-router-dom';
 import { maybe } from '../../../../common/utils/maybe';
 import { useLegacyUrlParams } from '../../../context/url_params_context/use_url_params';
 import { useAnyOfBSDParams } from '../../../hooks/use_bsd_params';
-import { useCriticalPathFeatureEnabledSetting } from '../../../hooks/use_critical_path_feature_enabled_setting';
 import { FETCH_STATUS } from '../../../hooks/use_fetcher';
 import { useSampleChartSelection } from '../../../hooks/use_sample_chart_selection';
 import {
@@ -22,14 +21,7 @@ import {
   useTransactionTraceSamplesFetcher,
 } from '../../../hooks/use_transaction_trace_samples_fetcher';
 import { fromQuery, toQuery } from '../../shared/links/url_helpers';
-import { aggregatedCriticalPathTab } from './aggregated_critical_path_tab';
-import { failedTransactionsCorrelationsTab } from './failed_transactions_correlations_tab';
-import { latencyCorrelationsTab } from './latency_correlations_tab';
-import { profilingTab } from './profiling_tab';
 import { traceSamplesTab } from './trace_samples_tab';
-import { useTransactionProfilingSetting } from '../../../hooks/use_profiling_integration_setting';
-import { useBSDServiceContext } from '../../../context/bsd_service/use_bsd_service_context';
-import { isJavaAgentName } from '../../../../common/agent_name';
 
 export interface TabContentProps {
   clearChartSelection: () => void;
@@ -45,30 +37,11 @@ export function TransactionDetailsTabs() {
     '/services/{serviceName}/transactions/view',
     '/mobile-services/{serviceName}/transactions/view'
   );
-  const { agentName } = useBSDServiceContext();
-
-  const isCriticalPathFeatureEnabled = useCriticalPathFeatureEnabledSetting();
-  const isTransactionProfilingEnabled = useTransactionProfilingSetting();
-
-  const availableTabs = useMemo(() => {
-    const tabs = [traceSamplesTab, latencyCorrelationsTab, failedTransactionsCorrelationsTab];
-    if (isCriticalPathFeatureEnabled) {
-      tabs.push(aggregatedCriticalPathTab);
-    }
-
-    if (isTransactionProfilingEnabled && isJavaAgentName(agentName)) {
-      tabs.push(profilingTab);
-    }
-
-    return tabs;
-  }, [agentName, isCriticalPathFeatureEnabled, isTransactionProfilingEnabled]);
 
   const { urlParams } = useLegacyUrlParams();
   const history = useHistory();
 
-  const [currentTab, setCurrentTab] = useState(traceSamplesTab.key);
-  const { component: TabContent } =
-    availableTabs.find((tab) => tab.key === currentTab) ?? traceSamplesTab;
+  const { component: TabContent } = traceSamplesTab;
 
   const { environment, kuery, transactionName } = query;
 
@@ -82,15 +55,11 @@ export function TransactionDetailsTabs() {
 
   const { clearChartSelection, selectSampleFromChartSelection } = useSampleChartSelection();
 
-  // When filtering in either the latency correlations or failed transactions correlations tab,
-  // scroll to the top of the page and switch to the 'Trace samples' tab to trigger a refresh.
-  const traceSamplesTabKey = traceSamplesTab.key;
+  // When filtering, scroll to the top of the page to trigger a refresh.
   const onFilter = useCallback(() => {
     // Scroll to the top of the page
     window.scrollTo(0, 0);
-    // Switch back to the 'trace samples' tab
-    setCurrentTab(traceSamplesTabKey);
-  }, [traceSamplesTabKey]);
+  }, []);
 
   useEffect(() => {
     const selectedSample = traceSamplesFetchResult.data?.traceSamples.find(
@@ -114,18 +83,13 @@ export function TransactionDetailsTabs() {
   return (
     <>
       <EuiTabs>
-        {availableTabs.map(({ dataTestSubj, key, label }) => (
-          <EuiTab
-            data-test-subj={dataTestSubj}
-            key={key}
-            isSelected={key === currentTab}
-            onClick={() => {
-              setCurrentTab(key);
-            }}
-          >
-            {label}
-          </EuiTab>
-        ))}
+        <EuiTab
+          data-test-subj={traceSamplesTab.dataTestSubj}
+          key={traceSamplesTab.key}
+          isSelected={true}
+        >
+          {traceSamplesTab.label}
+        </EuiTab>
       </EuiTabs>
       <EuiSpacer size="m" />
       <EuiPanel hasBorder={true}>

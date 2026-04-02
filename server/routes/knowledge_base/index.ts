@@ -13,7 +13,7 @@ export function defineKnowledgeBaseRoutes(router: IRouter) {
       const esClient = (await context.core).elasticsearch.client.asCurrentUser;
     
       const result = await esClient.search({
-        index: 'bs_type_set',
+        index: 'bs-type-set',
         _source: true,
         body: {
           query: {
@@ -33,14 +33,14 @@ export function defineKnowledgeBaseRoutes(router: IRouter) {
 
   router.get(
     {
-      path: '/api/bsd/bs_set',
+      path: '/api/bsd/bs-set',
       validate: false,
     },
     async (context, request, response) => {
       const esClient = (await context.core).elasticsearch.client.asCurrentUser;
     
       const result = await esClient.search({
-        index: 'bs_set',
+        index: 'bs-set',
         _source: true,
         body: {
           query: {
@@ -79,7 +79,7 @@ export function defineKnowledgeBaseRoutes(router: IRouter) {
 
       try {
         const result = await esClient.search({
-          index: 'bs_set', 
+          index: 'bs-set', 
           _source: true, 
           body: {
             query: {
@@ -126,7 +126,7 @@ export function defineKnowledgeBaseRoutes(router: IRouter) {
 
       try {
         const result = await esClient.search({
-          index: 'bs_set', 
+          index: 'bs-set', 
           _source: true, 
           body: {
             query: {
@@ -173,7 +173,7 @@ export function defineKnowledgeBaseRoutes(router: IRouter) {
 
       try {
         const result = await esClient.search({
-          index: 'bs_set', 
+          index: 'bs-set', 
           _source: true, 
           body: {
             query: {
@@ -226,7 +226,7 @@ export function defineKnowledgeBaseRoutes(router: IRouter) {
       const { categoryName } = request.query;
       
       const categoryItem = await esClient.search({
-        index: 'bs_type_set',
+        index: 'bs-type-set',
         _source: true,
         body: {
           query: {
@@ -241,7 +241,7 @@ export function defineKnowledgeBaseRoutes(router: IRouter) {
       const parentData:IBadSmellType = categoryItem.hits.hits[0]._source;
 
       const childRecords = await esClient.search({
-        index: 'bs_type_set',
+        index: 'bs-type-set',
         body: {
           query: {
             term: {
@@ -273,7 +273,7 @@ export function defineKnowledgeBaseRoutes(router: IRouter) {
 
       try {
         const result = await esClient.search({
-          index: 'bs_set', 
+          index: 'bs-set', 
           _source: true, 
           body: {
             query: {

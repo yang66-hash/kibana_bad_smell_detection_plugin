@@ -17,7 +17,7 @@ import { getNoDataConfig } from './no_data_config';
 import { useBSDPluginContext } from '../../../context/bsd_plugin/use_bsd_plugin_context';
 
 // Paths that must skip the no data screen
-const bypassNoDataScreenPaths = ['/settings', '/diagnostics'];
+const bypassNoDataScreenPaths = ['base'];
 const BSD_FEEDBACK_LINK = 'https://github.com/yang66-hash/bad_smell_detection_plugin';
 
 export function BSDMainTemplate({
@@ -105,7 +105,7 @@ export function BSDMainTemplate({
   //   noDataConfig,
   // });
 
-  const rightSideItems = [...(showServiceGroupSaveButton ? [<ServiceGroupSaveButton />] : [])];
+  // const rightSideItems = [...(showServiceGroupSaveButton ? [<ServiceGroupSaveButton />] : [])];
 
   const sanitizedPath = getPathForFeedback(window.location.pathname);
   const pageHeaderTitle = (
@@ -134,7 +134,7 @@ export function BSDMainTemplate({
       noDataConfig={shouldBypassNoDataScreen ? undefined : noDataConfig}
       isPageDataLoaded={isLoading === false}
       pageHeader={{
-        rightSideItems,
+        // rightSideItems,
         ...pageHeader,
         pageTitle: pageHeaderTitle,
       }}

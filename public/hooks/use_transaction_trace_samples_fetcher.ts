@@ -27,7 +27,7 @@ export function useTransactionTraceSamplesFetcher({
 
   const {
     query: { rangeFrom, rangeTo },
-  } = useAnyOfBSDParams('/services/{serviceName}', '/mobile-services/{serviceName}');
+  } = useAnyOfBSDParams('/services/{serviceName}');
 
   const { start, end } = useTimeRange({ rangeFrom, rangeTo });
 

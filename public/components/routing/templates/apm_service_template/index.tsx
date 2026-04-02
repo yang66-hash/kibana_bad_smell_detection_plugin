@@ -15,18 +15,15 @@ import {
   EuiTitle,
   EuiToolTip,
 } from '@elastic/eui';
-import { i18n } from '@kbn/i18n';
 import { enableAwsLambdaMetrics } from '@kbn/observability-plugin/common';
 import { omit } from 'lodash';
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useProfilingIntegrationSetting } from '../../../../hooks/use_profiling_integration_setting';
 import {
   isAWSLambdaAgentName,
   isAzureFunctionsAgentName,
   isMobileAgentName,
   isRumAgentName,
-  isRumOrMobileAgentName,
   isServerlessAgentName,
 } from '../../../../../common/agent_name';
 import { ApmFeatureFlagName } from '../../../../../common/apm_feature_flags';
@@ -35,35 +32,21 @@ import { useBSDPluginContext } from '../../../../context/bsd_plugin/use_bsd_plug
 import { ApmServiceContextProvider } from '../../../../context/bsd_service/bsd_service_context';
 import { useBSDServiceContext } from '../../../../context/bsd_service/use_bsd_service_context';
 import { useBreadcrumb } from '../../../../context/breadcrumbs/use_breadcrumb';
-import { ServiceAnomalyTimeseriesContextProvider } from '../../../../context/service_anomaly_timeseries/service_anomaly_timeseries_context';
 import { useBSDFeatureFlag } from '../../../../hooks/use_apm_feature_flag';
 import { useBSDParams } from '../../../../hooks/use_bsd_params';
 import { useBSDRouter } from '../../../../hooks/use_bsd_router';
 import { isPending, useFetcher } from '../../../../hooks/use_fetcher';
 import { useTimeRange } from '../../../../hooks/use_time_range';
 import { getAlertingCapabilities } from '../../../alerting/utils/get_alerting_capabilities';
-import { BetaBadge } from '../../../shared/beta_badge';
 import { replace } from '../../../shared/links/url_helpers';
 import { SearchBar } from '../../../shared/search_bar/search_bar';
 import { ServiceIcons } from '../../../shared/service_icons';
-import { TechnicalPreviewBadge } from '../../../shared/technical_preview_badge';
 import { BSDMainTemplate } from '../bsd_main_template';
-import { AnalyzeDataButton } from './analyze_data_button';
 
 type Tab = NonNullable<EuiPageHeaderProps['tabs']>[0] & {
   key:
     | 'overview'
     | 'transactions'
-    | 'dependencies'
-    | 'errors'
-    | 'metrics'
-    | 'nodes'
-    | 'infrastructure'
-    | 'service-map'
-    | 'logs'
-    | 'alerts'
-    | 'profiling'
-    | 'dashboards';
   hidden?: boolean;
 };
 
@@ -142,9 +125,9 @@ function TemplateWithContext({ title, children, selectedTab, searchBarOptions }:
               </EuiFlexGroup>
             </EuiFlexItem>
 
-            <EuiFlexItem grow={false}>
+            {/* <EuiFlexItem grow={false}>
               <AnalyzeDataButton />
-            </EuiFlexItem>
+            </EuiFlexItem> */}
           </EuiFlexGroup>
         ),
       }}
@@ -159,9 +142,8 @@ function TemplateWithContext({ title, children, selectedTab, searchBarOptions }:
       ) : (
         <>
           <SearchBar {...searchBarOptions} />
-          <ServiceAnomalyTimeseriesContextProvider>
-            {children}
-          </ServiceAnomalyTimeseriesContextProvider>
+          {children}
+
         </>
       )}
     </BSDMainTemplate>
@@ -209,7 +191,6 @@ function useTabs({ selectedTab }: { selectedTab: Tab['key'] }) {
   const router = useBSDRouter();
   const isInfraTabAvailable = useBSDFeatureFlag(ApmFeatureFlagName.InfrastructureTabAvailable);
 
-  const isProfilingIntegrationEnabled = useProfilingIntegrationSetting();
 
   const isAwsLambdaEnabled = core.uiSettings.get<boolean>(enableAwsLambdaMetrics, true);
 
@@ -248,9 +229,7 @@ function useTabs({ selectedTab }: { selectedTab: Tab['key'] }) {
         path: { serviceName },
         query,
       }),
-      label: i18n.translate('xpack.apm.serviceDetails.overviewTabLabel', {
-        defaultMessage: 'Overview',
-      }),
+      label: 'BSD Overview',
     },
     {
       key: 'transactions',
@@ -258,134 +237,7 @@ function useTabs({ selectedTab }: { selectedTab: Tab['key'] }) {
         path: { serviceName },
         query,
       }),
-      label: i18n.translate('xpack.apm.serviceDetails.transactionsTabLabel', {
-        defaultMessage: 'Transactions',
-      }),
-    },
-    {
-      key: 'dependencies',
-      href: router.link('/services/{serviceName}/dependencies', {
-        path: { serviceName },
-        query,
-      }),
-      label: i18n.translate('xpack.apm.serviceDetails.dependenciesTabLabel', {
-        defaultMessage: 'Dependencies',
-      }),
-      hidden: !agentName || isRumAgentName(agentName),
-    },
-    {
-      key: 'errors',
-      href: router.link('/services/{serviceName}/errors', {
-        path: { serviceName },
-        query,
-      }),
-      label: i18n.translate('xpack.apm.serviceDetails.errorsTabLabel', {
-        defaultMessage: 'Errors',
-      }),
-    },
-    {
-      key: 'metrics',
-      href: router.link('/services/{serviceName}/metrics', {
-        path: { serviceName },
-        query,
-      }),
-      label: i18n.translate('xpack.apm.serviceDetails.metricsTabLabel', {
-        defaultMessage: 'Metrics',
-      }),
-      append: isServerlessAgentName(serverlessType) && <TechnicalPreviewBadge icon="beaker" />,
-      hidden: isMetricsTabHidden({
-        agentName,
-        serverlessType,
-        isAwsLambdaEnabled,
-      }),
-    },
-    {
-      key: 'infrastructure',
-      href: router.link('/services/{serviceName}/infrastructure', {
-        path: { serviceName },
-        query,
-      }),
-      append: <BetaBadge icon="beta" />,
-      label: i18n.translate('xpack.apm.home.infraTabLabel', {
-        defaultMessage: 'Infrastructure',
-      }),
-      hidden: isInfraTabHidden({
-        agentName,
-        serverlessType,
-        isInfraTabAvailable,
-      }),
-    },
-    {
-      key: 'service-map',
-      href: router.link('/services/{serviceName}/service-map', {
-        path: { serviceName },
-        query,
-      }),
-      label: i18n.translate('xpack.apm.home.serviceMapTabLabel', {
-        defaultMessage: 'Service Map',
-      }),
-    },
-    {
-      key: 'logs',
-      href: router.link('/services/{serviceName}/logs', {
-        path: { serviceName },
-        query,
-      }),
-      label: i18n.translate('xpack.apm.home.serviceLogsTabLabel', {
-        defaultMessage: 'Logs',
-      }),
-      append: isServerlessAgentName(serverlessType) && <TechnicalPreviewBadge icon="beaker" />,
-      hidden: !agentName || isRumAgentName(agentName) || isAzureFunctionsAgentName(serverlessType),
-    },
-    {
-      key: 'alerts',
-      href: router.link('/services/{serviceName}/alerts', {
-        path: { serviceName },
-        query,
-      }),
-      append:
-        serviceAlertsCount.alertsCount > 0 ? (
-          <EuiToolTip
-            position="bottom"
-            content={i18n.translate(
-              'xpack.apm.home.serviceAlertsTable.tooltip.activeAlertsExplanation',
-              {
-                defaultMessage: 'Active alerts',
-              }
-            )}
-          >
-            <EuiBadge color="danger">{serviceAlertsCount.alertsCount}</EuiBadge>
-          </EuiToolTip>
-        ) : null,
-      label: i18n.translate('xpack.apm.home.alertsTabLabel', {
-        defaultMessage: 'Alerts',
-      }),
-      hidden: !(isAlertingAvailable && canReadAlerts),
-    },
-    {
-      key: 'profiling',
-      href: router.link('/services/{serviceName}/profiling', {
-        path: { serviceName },
-        query,
-      }),
-      label: i18n.translate('xpack.apm.home.profilingTabLabel', {
-        defaultMessage: 'Universal Profiling',
-      }),
-      hidden:
-        !isProfilingIntegrationEnabled ||
-        isRumOrMobileAgentName(agentName) ||
-        isAWSLambdaAgentName(serverlessType),
-    },
-    {
-      key: 'dashboards',
-      href: router.link('/services/{serviceName}/dashboards', {
-        path: { serviceName },
-        query,
-      }),
-      label: i18n.translate('xpack.apm.home.dashboardsTabLabel', {
-        defaultMessage: 'Dashboards',
-      }),
-      append: <TechnicalPreviewBadge icon="beaker" />,
+      label: 'Transactions',
     },
   ];
 

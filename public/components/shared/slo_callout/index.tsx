@@ -41,7 +41,6 @@ export function SloCallout({
     locator?.navigate(
       {
         indicator: {
-          type: 'sli.apm.transactionErrorRate',
           params: {
             service: serviceName,
             environment: environment === ENVIRONMENT_ALL.value ? '*' : environment,
